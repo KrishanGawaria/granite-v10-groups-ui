@@ -1,0 +1,5 @@
+<h2>Friends List</h2>
+
+<%foundUser.friends.forEach(function(Friend){%>
+  <p><a href="/<%=currentUser._id%>/explore/<%=Friend._id%>"><%=Friend.username%></a></p>
+<%})%>

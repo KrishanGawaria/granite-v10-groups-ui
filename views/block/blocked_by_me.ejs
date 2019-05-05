@@ -1,0 +1,17 @@
+<h2>Blocked By Me</h2>
+
+
+
+<%foundUser.blocked_by_me.forEach(function(Post){%>
+
+  <div><%=Post.post%></div>
+  <div>Buying From: <%=Post.buying_from.username%></div>
+  <div>Quantity: <%=Post.quantity%></div>
+  <div>Price Per Quantity: <%=Post.price%></div>
+  <div>
+    <a href="/<%=currentUser._id%>/post/<%=Post._id%>/comment">Comments (Only visible to You and <%=Post.buying_from.username%>)</a>
+  </div>
+  <div><a href="#">See Performa</a></div>
+  <div><a href="#">Order</a></div>
+
+<%})%>

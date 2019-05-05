@@ -1,0 +1,5 @@
+<h2>Friend Requests</h2>
+
+<%foundUser.friend_requests.forEach(function(Guest){%>
+  <p><a href="/<%=currentUser._id%>/explore/<%=Guest._id%>"><%=Guest.username%></a></p>
+<%})%>

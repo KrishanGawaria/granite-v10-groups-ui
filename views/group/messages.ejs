@@ -1,0 +1,12 @@
+<!-- GROUP MESSAGES -->
+
+<!-- FORM TO CREATE NEW MESSAGE  -->
+<form action="/<%=currentUser._id%>/my-groups/<%=foundGroup._id%>/message" method="POST">
+  <input type="text" name="message" placeholder="Type Your Message ...">
+  <button>Send</button>
+</form>
+
+<!-- DISPLAY MESSAGES -->
+<%foundGroup.messages.forEach(function(Message){%>
+  <p><%=Message.author.username%> - <%=Message.message%></p>
+<%})%>

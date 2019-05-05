@@ -1,0 +1,5 @@
+<p>Explore All Users</p>
+
+<%foundUsers.forEach(function(foundUser){%>
+  <p><a href="/<%=currentUser._id%>/explore/<%=foundUser._id%>"><%=foundUser.username%></a></p>
+<%})%>

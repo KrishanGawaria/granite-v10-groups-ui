@@ -1,0 +1,14 @@
+
+<!-- FORM TO CREATE NEW GROUP -->
+<form action="/<%=currentUser._id%>/my-groups" method="POST">
+  <input type="text" name="name" placeholder="Enter Group Name">
+  <button>Create New Group</button>
+</form>
+
+
+<!-- DISPLAY CURRENT USER'S GROUPS -->
+<p>My Groups</p>
+
+<%foundUser.groups.forEach(function(foundGroup){%>
+  <p><a href="/<%=currentUser._id%>/my-groups/<%=foundGroup._id%>"><%=foundGroup.name%></a></p>
+<%})%>

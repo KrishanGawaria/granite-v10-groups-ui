@@ -1,0 +1,18 @@
+<h3><%=foundComment.comment%></h3>
+<h4>Comment by : <%=foundComment.author.username%></h4>
+
+
+<h5>Replies</h5>
+
+<!-- DISPLAYING REPLIES OF THE COMMENT  -->
+<%foundComment.replies.forEach(function(Reply){%>
+  <p>
+    <strong><%=Reply.author.username%></strong> - <%=Reply.message%>
+  </p>
+<%})%>
+
+<!-- FORM TO SUBMIT REPLY -->
+<form action="/<%=currentUser._id%>/comment/<%=foundComment._id%>/reply" method="POST">
+  <input type="text" name="message" placeholder="Enter Your Reply Here ...">
+  <button>Submit Reply</button>
+</form>

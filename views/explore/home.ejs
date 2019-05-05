@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Konnect</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,700i" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/stylesheets/inventory_shared_inventories_by_me.css">
+
+  </head>
+
+  <body>
+
+
+    <div class="navbar-section">
+      <div class="navbar-left">
+        <a href="#">Connect</a>
+      </div>
+
+      <div class="navbar-right">
+
+      <%if(!currentUser){%>
+        <div class="navbar-right-item">
+          <a href="#">Login</a>
+        </div>
+        <div class="navbar-right-item">
+          <a href="#">Register</a>
+        </div>
+      <%} else{%>
+        <div class="navbar-right-item">
+          Hi <%=currentUser.username%>
+        </div>
+        <div class="navbar-right-item">
+          <a href="#">Logout</a>
+        </div>
+      <%}%>
+
+      </div>
+    </div>
+
+
+
+
+
+
+    <div class="below-nav-group-title">
+      You are stalking  <%=foundUser.username%>
+    </div>
+
+
+
+
+
+    <% var FRIEND = -1 %>
+    <% var ACQUAINTANCE = -1 %>
+    <% var FRIEND_REQUEST = -1 %>
+    <% var SENT_FRIEND_REQUEST = -1 %>
+
+
+    <%
+
+      // CHECKING WHETHER CURRENT USER IS EXPLORED USER'S FRIEND OR NOT
+
+      currentUser.friends.forEach(function(friendId){
+        if(friendId.toString() == foundUser._id.toString()){
+          FRIEND = 1
+        }
+      })
+
+      // CHECKING WHETHER EXPLORED USER IS URRENT USER'S ACQUAINTANCE OR NOT
+
+      currentUser.acquaintances.forEach(function(acquaintanceId){
+        if(acquaintanceId.toString() == foundUser._id.toString()){
+          ACQUAINTANCE = 1
+        }
+      })
+
+      // CHECKING WHETHER THE CURRENT USER HAS ALREADY GOT EXPLORED USER'S FRIEND REQUEST WHICH IS NOT ACCEPTED YET
+
+      currentUser.friend_requests.forEach(function(friendId){
+        if(friendId.toString() == foundUser._id.toString()){
+          FRIEND_REQUEST = 1
+        }
+      })
+
+      // CHECKING WHETHER THE CURRENT USER HAS ALREADY SENT FRIEND REQUEST TO EXPLORED USER WHICH IS NOT ACCEPTED YET
+
+      currentUser.sent_friend_requests.forEach(function(friendId){
+        if(friendId.toString() == foundUser._id.toString()){
+          SENT_FRIEND_REQUEST = 1
+        }
+      })
+
+
+    %>
+
+
+
+
+
+
+
+
+
+    <div class="middle-row-section">
+
+      <div class="left-nav">
+        <div class="left-nav-item">
+          <%if(FRIEND == 1 || ACQUAINTANCE == 1){%>
+            <a href="/<%=currentUser._id%>/explore/<%=foundUser._id%>/remove-friend">Remove Friend</a>
+          <%} else if(FRIEND_REQUEST == 1) {%>
+
+            <a href="/<%=currentUser._id%>/explore/<%=foundUser._id%>/confirm-friend-request/friend">Confirm as Friend</a>
+            </div>
+            <div class="left-nav-item">
+            <a href="/<%=currentUser._id%>/explore/<%=foundUser._id%>/confirm-friend-request/acquaintance">Confirm as Acquaintance</a>
+            </div>
+          <%} else if (SENT_FRIEND_REQUEST == 1) {%>
+            <a href="/<%=currentUser._id%>/explore/<%=foundUser._id%>/cancel-friend-request">Cancel Friend Request</a>
+          <%} else {%>
+            <a href="/<%=currentUser._id%>/explore/<%=foundUser._id%>/send-friend-request">Send Friend Request</a>
+          <%}%>
+        </div>
+      </div>
+
+
+
+      <div class="main-section">
+        <%AllPosts.forEach(function(Post){%>
+          <div class="main-section-item">
+            <div class="main-section-item-author main-section-subitem"><a href="#"><%=Post.author.username%></a></div>
+            <div class="main-section-item-post main-section-subitem"><%=Post.post%></div>
+
+            <div class="main-section-item-post-image main-section-subitem">
+              <%Post.images.forEach(function(Image, index){%>
+                <div class="main-section-item-post-image-subitem">
+                  <a href="/<%=currentUser._id%>/post/<%=Post._id%>/image/<%=index%>"><img width=500px src="data:image/png;base64,<%=Image["base64"]%>"></a>
+                </div>
+              <%})%>
+            </div>
+
+            <div class="main-section-item-qty-price-comments main-section-subitem">
+              <div class="main-section-item-qty-price-comments-subitem">Quantity: <span id="quantity"><%=Post.quantity%></span></div>
+              <div class="main-section-item-qty-price-comments-subitem">Price: <span id="price"><%=Post.price%></span></div>
+              <div class="main-section-item-qty-price-comments-subitem"><a href="/<%=currentUser._id%>/inventory/<%=Post._id%>/share">Share</a></div>
+            </div>
+
+
+            <%if(Post["type_of_post"] == "inventory"){%>
+              <div class="main-section-item-block-form main-section-subitem">
+                <form action="/<%=currentUser._id%>/post/<%=Post._id%>/block" method="POST">
+                  <div class="form-flex form-group">
+                    <input class="form-flex-item form-control" type="text" name="quantity" placeholder="Enter quantity to Block">
+                    <button class="form-flex-item btn btn-primary" style="background: black;">Block</button>
+                  </div>
+                </form>
+              </div>
+            <%}%>
+
+
+          </div>
+
+        <%})%>
+      </div>
+
+      <div class="right-nav">
+
+      </div>
+
+    </div>

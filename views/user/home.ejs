@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Konnect</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,700i" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/stylesheets/user_home.css">
+
+  </head>
+
+  <body>
+
+
+    <div class="navbar-section">
+      <div class="navbar-left">
+        <a href="#">Connect</a>
+      </div>
+
+      <div class="navbar-right">
+
+      <%if(!currentUser){%>
+        <div class="navbar-right-item">
+          <a href="#">Login</a>
+        </div>
+        <div class="navbar-right-item">
+          <a href="#">Register</a>
+        </div>
+      <%} else{%>
+        <div class="navbar-right-item">
+          Hi <%=currentUser.username%>
+        </div>
+        <div class="navbar-right-item">
+          <a href="#">Logout</a>
+        </div>
+      <%}%>
+
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <div class="middle-row-section">
+
+      <div class="left-nav">
+        <div class="left-nav-item"><a href="/<%=currentUser._id%>/explore">Explore</a></div>
+        <div class="left-nav-item"><a href="/<%=currentUser._id%>/friends">Friends</a></div>
+        <div class="left-nav-item"><a href="/<%=currentUser._id%>/acquaintances">Acquaintances</a></div>
+        <div class="left-nav-item"><a href="/<%=currentUser._id%>/post/new">Create Post</a></div>
+        <div class="left-nav-item"><a href="/<%=currentUser._id%>/post">My Posts</a></div>
+        <div class="left-nav-item"><a href="/<%=currentUser._id%>/my-groups">My Groups</a></div>
+        <div class="left-nav-item"><a href="/<%=currentUser._id%>/friend-requests">Friend Requests</a></div>
+        <div class="left-nav-item"><a href="/<%=currentUser._id%>/sent-friend-requests">Sent Friend Requests</a></div>
+        <div class="left-nav-item"><a href="/<%=currentUser._id%>/inventory">My Inventories</a></div>
+        <div class="left-nav-item"><a href="/<%=currentUser._id%>/shared-inventory">Shared By Others</a></div>
+        <div class="left-nav-item"><a href="/<%=currentUser._id%>/shared-inventory-by-me">Shared By Me</a></div>
+        <div class="left-nav-item"><a href="/<%=currentUser._id%>/blocked-by-others">Blocked By Others</a></div>
+        <div class="left-nav-item"><a href="/<%=currentUser._id%>/blocked-by-me">Blocked By Me</a></div>
+        <div class="left-nav-item"><a href="/<%=currentUser._id%>/my-interests">My Interests</a></div>
+        <div class="left-nav-item"><a href="/<%=currentUser._id%>/others-interests">Others Interests</a></div>
+      </div>
+
+      <div class="main-section">
+          <%AllPosts.forEach(function(Post){%>
+            <div class="main-section-item">
+              <div class="main-section-item-author main-section-subitem"><a href="#"><%=Post.author.username%></a></div>
+              <div class="main-section-item-post main-section-subitem"><%=Post.post%></div>
+
+              <div class="main-section-item-post-image main-section-subitem">
+                <%Post.images.forEach(function(Image, index){%>
+                  <div class="main-section-item-post-image-subitem">
+                    <a href="/<%=currentUser._id%>/post/<%=Post._id%>/image/<%=index%>"><img width=500px src="data:image/png;base64,<%=Image["base64"]%>"></a>
+                  </div>
+                <%})%>
+              </div>
+
+              <div class="main-section-item-qty-price-comments main-section-subitem">
+                <div class="main-section-item-qty-price-comments-subitem">Quantity: <span id="quantity"><%=Post.quantity%></span></div>
+                <div class="main-section-item-qty-price-comments-subitem">Price: <span id="price"><%=Post.price%></span></div>
+                <div class="main-section-item-qty-price-comments-subitem"><a href="/<%=currentUser._id%>/post/<%=Post._id%>/comment">Comments</a></div>
+                <div class="main-section-item-qty-price-comments-subitem"><a href="/<%=currentUser._id%>/post/<%=Post._id%>/share">Share</a></div>
+              </div>
+
+              <%if(Post["type_of_post"] == "inventory"){%>
+                <div class="main-section-item-block-form main-section-subitem">
+                  <form action="/<%=currentUser._id%>/post/<%=Post._id%>/block" method="POST">
+                    <div class="form-flex form-group">
+                      <input class="form-flex-item form-control" type="text" name="quantity" placeholder="Enter quantity to Block">
+                      <button class="form-flex-item btn btn-primary" style="background: black;">Block</button>
+                    </div>
+                  </form>
+                </div>
+              <%}%>
+
+
+            </div>
+
+          <%})%>
+      </div>
+
+      <div class="right-nav">
+
+      </div>
+
+    </div>
+
+
+
+<% include ../partials/footer %>

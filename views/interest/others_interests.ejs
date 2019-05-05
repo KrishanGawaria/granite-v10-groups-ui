@@ -1,0 +1,16 @@
+<h2>Others Interests</h2>
+
+
+
+<%foundUser.others_interests.forEach(function(Post){%>
+
+  <div><%=Post.post%></div>
+  <div>Interested User: <%=Post.author.username%></div>
+  <div>Quantity: <%=Post.quantity%></div>
+  <div>Price Per Quantity: <%=Post.price%></div>
+  <div>
+    <a href="/<%=currentUser._id%>/post/<%=Post._id%>/comment">Comments (Only visible to You and <%=Post.author.username%>)</a>
+  </div>
+  <div><a href="/<%=currentUser._id%>/post/<%=Post._id%>/approve">Approve</a></div>
+
+<%})%>

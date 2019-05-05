@@ -1,0 +1,10 @@
+<h3>Creating the Inventory</h3>
+
+<form action="/<%=currentUser._id%>/inventory" method="POST" enctype="multipart/form-data">
+  <input type="text" name="post" placeholder="Type Your Inventory Description Here">
+  <input type="file" name="userPhoto" multiple>
+  <input type="text" name="price" placeholder="Enter Price Per Quantity">
+  <input type="text" name="quantity" placeholder="Enter quantity">
+
+  <button>Submit</button>
+</form>

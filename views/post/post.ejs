@@ -1,0 +1,9 @@
+<h2>My Posts</h2>
+
+<%AllPosts.forEach(function(Post){%>
+  <p>
+    <%=Post.author.username%> - <%=Post.post%> - <span style="color : red;">qty: <%=Post.quantity%></span>
+    <span> Price Per Quantity: Rs <%=Post.price%></span>
+    <a href="/<%=currentUser._id%>/post/<%=Post._id%>/comment">Comments</a>
+  </p>
+<%})%>

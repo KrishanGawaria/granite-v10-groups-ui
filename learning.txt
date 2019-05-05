@@ -1,0 +1,25 @@
+1. Populating Nesting Array: (Used in routes/group.js -> // THIS ROUTE SHOWS THE HOME PAGE OF GROUP)
+  Group.findOne({_id : req.params.group_id}).populate('members').populate({path:'messages', populate : {path: 'author', model : 'User'}}).exec()
+  // The above statement populates 'members' inside 'Group', populates 'messages' inside 'Group' and populate 'author' inside 'Message'
+
+2. Fetching the result from mongoose except multiple specified conditions:
+  db.inventory.find( { qty: { $nin: [ 5, 15 ] } } )
+
+3.  Fetching the result from mongoose except single specified condition:
+  db.inventory.find( { qty: { $ne: 20 } } )
+
+4.  SORTING THE POSTS OF FRIENDS ACCORDING TO THE time IN DESCENDING ORDER
+  allPosts.sort(function(a,b){
+    var dateA = new Date(a.time)
+    var dateB = new Date(b.time)
+    return dateB - dateA;
+  })
+
+
+5.  To iterate through an Object in Javascript: Object.entries(<obj>)
+      e.g.
+        var obj = {a : 1, b : 2}
+        var result = Object.entries(obj)
+
+        value of result is:
+        [["a", 1], ["b", 2]]

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Konnect</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,700i" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/stylesheets/group_home.css">
+
+  </head>
+
+  <body>
+
+
+    <div class="navbar-section">
+      <div class="navbar-left">
+        <a href="#">Connect</a>
+      </div>
+
+      <div class="navbar-right">
+
+      <%if(!currentUser){%>
+        <div class="navbar-right-item">
+          <a href="#">Login</a>
+        </div>
+        <div class="navbar-right-item">
+          <a href="#">Register</a>
+        </div>
+      <%} else{%>
+        <div class="navbar-right-item">
+          Hi <%=currentUser.username%>
+        </div>
+        <div class="navbar-right-item">
+          <a href="#">Logout</a>
+        </div>
+      <%}%>
+
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+    <div class="below-nav-group-title">
+      Group: <%=foundGroup.name%>
+    </div>
+
+
+
+    <div class="middle-row-section">
+
+      <div class="left-nav">
+        <div class="left-nav-item"><a href="/<%=currentUser._id%>/my-groups/<%=foundGroup._id%>/messages">Group Messages</a></div>
+        <div class="left-nav-item"><a href="/<%=currentUser._id%>/my-groups/<%=foundGroup._id%>/add-remove-members">Add/Remove Members</a></div>
+        <div class="left-nav-item"><a href="/<%=currentUser._id%>/my-groups/<%=foundGroup._id%>/delete">Delete Group</a></div>
+
+        <div class="left-nav-item group-members-text">Group Members</div>
+        <%foundGroup.members.forEach(function(Member){%>
+          <div class="left-nav-item group-member"><%=Member.username%></div>
+        <%})%>
+
+      </div>
+
+
+
+      <div class="main-section">
+        <%foundGroup.posts.forEach(function(Post){%>
+          <div class="main-section-item">
+            <div class="main-section-item-author main-section-subitem"><a href="#"><%=Post.author.username%></a></div>
+            <div class="main-section-item-post main-section-subitem"><%=Post.post%></div>
+
+            <div class="main-section-item-post-image main-section-subitem">
+              <%Post.images.forEach(function(Image, index){%>
+                <div class="main-section-item-post-image-subitem">
+                  <a href="/<%=currentUser._id%>/post/<%=Post._id%>/image/<%=index%>"><img width=500px src="data:image/png;base64,<%=Image["base64"]%>"></a>
+                </div>
+              <%})%>
+            </div>
+
+            <div class="main-section-item-qty-price-comments main-section-subitem">
+              <div class="main-section-item-qty-price-comments-subitem">Quantity: <span id="quantity"><%=Post.quantity%></span></div>
+              <div class="main-section-item-qty-price-comments-subitem">Price: <span id="price"><%=Post.price%></span></div>
+              <div class="main-section-item-qty-price-comments-subitem"><a href="/<%=currentUser._id%>/post/<%=Post._id%>/comment">Comments</a></div>
+              <div class="main-section-item-qty-price-comments-subitem"><a href="/<%=currentUser._id%>/post/<%=Post._id%>/share">Share</a></div>
+            </div>
+
+            <%if(Post["type_of_post"] == "inventory"){%>
+              <div class="main-section-item-block-form main-section-subitem">
+                <form action="/<%=currentUser._id%>/post/<%=Post._id%>/block" method="POST">
+                  <div class="form-flex form-group">
+                    <input class="form-flex-item form-control" type="text" name="quantity" placeholder="Enter quantity to Block">
+                    <button class="form-flex-item btn btn-primary" style="background: black;">Block</button>
+                  </div>
+                </form>
+              </div>
+            <%}%>
+
+
+          </div>
+
+        <%})%>
+      </div>
+
+      <div class="right-nav">
+
+      </div>
+
+    </div>

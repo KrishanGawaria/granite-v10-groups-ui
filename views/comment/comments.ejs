@@ -1,0 +1,35 @@
+<h3><%=foundPost.post%></h3>
+<h4>Post by : <%=foundPost.author.username%></h4>
+
+
+<h5>Comments</h5>
+
+<!-- DISPLAYING COMMENTS OF THE POST AND REPLY BUTTON BESIDE EACH COMMENT -->
+<%foundPost.comments.forEach(function(Comment){%>
+  <p>
+    <%
+    // IF COMMENT IS PRIVATE, ONLY COMMENT OWNER AND POST OWNER SHOULD BE ABLE TO SEE THE COMMENT
+    var displayComment = false
+    if(Comment.private_tag == true){
+      if(Comment.author._id.toString() == currentUser._id.toString() || foundPost.author._id.toString() == currentUser._id.toString()){
+        displayComment = true
+      }
+    } else{
+      displayComment = true
+    }
+    %>
+
+    <%if(displayComment){%>
+      <strong><%=Comment.author.username%></strong> - <%=Comment.comment%>
+      <a href="/<%=currentUser._id%>/post/<%=foundPost._id%>/comment/<%=Comment._id%>/reply">Reply</a>
+    <%}%>
+
+  </p>
+<%})%>
+
+<form action="/<%=currentUser._id%>/post/<%=foundPost._id%>/comment" method="POST">
+  <input type="text" name="comment" placeholder="Enter Your Comment Here ...">
+  <input type="radio" name="private_tag" value="true"> Private Comment
+  <input type="radio" name="private_tag" value="false"> Public Comment
+  <button>Post Comment</button>
+</form>

@@ -1,0 +1,33 @@
+<h2><%=foundPost.post%></h2>
+
+<h4>Share Inventory with ...</h4>
+
+<form action="/<%=currentUser._id%>/inventory/<%=foundPost._id%>/share" method="POST">
+
+  <input type="text" name="price" placeholder="Enter Price per Qty">
+  <input type="text" name="quantity" placeholder="Enter quantity">
+
+  <p>
+    <input type="checkbox" name="Post-Post" value="Post-Post"> Post
+    <input type="checkbox" name="friend" value="friend">Friend
+    <input type="checkbox" name="acquaintance" value="acquaintance">Acquaintance
+    <input type="checkbox" name="unconnected" value="unconnected">Unconnected
+  </p>
+
+  <h5>Friends</h5>
+  <%foundUser.friends.forEach(function(Friend){%>
+    <div>
+      <input type="checkbox" name="Friend-<%=Friend._id%>" value="<%=Friend.username%>"> <span><%=Friend.username%></span>
+    </div>
+  <%})%>
+
+  <h5>Groups</h5>
+  <%foundUser.groups.forEach(function(Group){%>
+    <div>
+      <input type="checkbox" name="Group-<%=Group._id%>" value="<%=Group.name%>"> <span><%=Group.name%></span>
+    </div>
+  <%})%>
+
+  <button>Share</button>
+
+</form>

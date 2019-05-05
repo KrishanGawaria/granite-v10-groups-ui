@@ -1,0 +1,5 @@
+<h2>Acquaintances List</h2>
+
+<%foundUser.acquaintances.forEach(function(Acquaintance){%>
+  <p><a href="/<%=currentUser._id%>/explore/<%=Acquaintance._id%>"><%=Acquaintance.username%></a></p>
+<%})%>

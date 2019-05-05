@@ -1,0 +1,7 @@
+<h3>Members of the group: <%=foundGroup.name%></h3>
+
+<!--DISPLAY MEMBERS OF GROUP-->
+
+<%foundGroup.members.forEach(function(Member){%>
+  <p><%=Member.username%></p>
+<%})%>

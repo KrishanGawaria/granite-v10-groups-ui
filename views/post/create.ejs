@@ -1,0 +1,20 @@
+<h3>Creating the Post</h3>
+
+<form action="/<%=currentUser._id%>/post" method="POST" enctype="multipart/form-data">
+  <input type="text" name="post" placeholder="Type Your Post Here">
+  <input type="file" name="userPhoto" multiple>
+  <input type="text" name="price" placeholder="Enter Price Per Quantity">
+  <input type="text" name="quantity" placeholder="Enter quantity">
+
+  <h4>Whom you want to see your Post?</h4>
+  <input type="checkbox" name="friend" value="friend">Friend
+  <input type="checkbox" name="acquaintance" value="acquaintance">Acquaintance
+  <input type="checkbox" name="unconnected" value="unconnected">Unconnected
+
+  <h5>Groups</h5>
+  <%foundUser.groups.forEach(function(Group){%>
+    <input type="checkbox" name="Group-<%=Group._id%>" value="<%=Group.name%>"> <span><%=Group.name%></span>
+  <%})%>
+
+  <button>Post</button>
+</form>

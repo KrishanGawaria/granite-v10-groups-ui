@@ -1,0 +1,25 @@
+<h3>Add/Remove Members in Group: <%=foundGroup.name%></h3>
+
+<!-- DISPLAYING ALREADY ADDED MEMBERS OF GROUPS (WITH REMOVE BUTTON) EXCEPT THE CURRENT USER HIMSELF -->
+<%foundGroup.members.forEach(function(Member){%>
+    <!-- EXCEPT CURRENT USER -->
+    <%if(Member._id.toString() != foundUser._id.toString()){%>
+      <p><%=Member.username %><a href="/<%=currentUser._id%>/my-groups/<%=foundGroup._id%>/remove-member/<%=Member._id%>"> Remove</a></p>
+    <%}%>
+
+<%})%>
+
+<!-- DISPLAYING FRIENDS OF CURRENT USER WHO ARE NOT MEMBERS OF GROUP (WITH ADD BUTTON) -->
+<%foundUser.friends.forEach(function(Friend){%>
+    <%var index = -1%>
+
+    <%foundGroup.members.forEach(function(Member){
+      if(Friend._id.toString() == Member._id.toString()){
+        index = 1
+      }
+    })%>
+
+    <%if(index == -1){%>
+      <p><%=Friend.username %><a href="/<%=currentUser._id%>/my-groups/<%=foundGroup._id%>/add-member/<%=Friend._id%>"> Add</a></p>
+    <%}%>
+<%})%>
