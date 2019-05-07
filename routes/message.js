@@ -8,6 +8,9 @@ var Message = models['Message']
 
 // CREATING MESSAGE AND ADDING IT TO GROUP
 router.post('/:id/my-groups/:group_id/message', function(req, res){
+  // CREATE newMessage
+  // ASSIGNING createdMessage AN "author"
+  // ADDING createdMessage INTO GROUPS'S "messages" ARRAY
 
   var newMessage = {
     message : req.body['message']

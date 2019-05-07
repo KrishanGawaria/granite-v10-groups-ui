@@ -21,6 +21,9 @@ router.get('/:id/my-groups', function(req, res){
 
 // Logic to create new group
 router.post('/:id/my-groups', function(req, res){
+  // CREATING A NEW GROUP
+  // ADDING THE CREATED GROUP INTO CURRENT USER'S "groups" array
+  // ADDING THE CURRENT USER INTO CREATED GROUP'S "members" ARRAY
 
   var newGroup = {
     name : req.body['name']
@@ -47,6 +50,9 @@ router.post('/:id/my-groups', function(req, res){
 
 // Logic to Delete existing group
 router.get('/:id/my-groups/:group_id/delete', function(req, res){
+  // DELETING THE GROUP FROM "groups" ARRAY OF ALL MEMBERS OF GROUP
+  // DELETING THE GROUP
+
 
   // DELETING THE GROUP FROM "groups" ARRAY OF ALL MEMBERS OF GROUP
   Group.findOne({_id : req.params.group_id}).populate('members').exec()
@@ -142,6 +148,8 @@ router.get('/:id/my-groups/:group_id/add-remove-members', function(req, res){
 
 // Logic to add member into the group
 router.get('/:id/my-groups/:group_id/add-member/:member_id', function(req, res){
+  // ADDING THE USER INTO THE GROUP'S "members" ARRAY
+  // ADDING THE GROUP INTO THE USER'S "groups" ARRAY
     Group.findOne({_id : req.params.group_id})
     .then(function(foundGroup){
       User.findOne({_id : req.params.member_id})
@@ -169,6 +177,9 @@ router.get('/:id/my-groups/:group_id/add-member/:member_id', function(req, res){
 
 // Logic to remove member from the group
 router.get('/:id/my-groups/:group_id/remove-member/:member_id', function(req, res){
+  // REMOVING THE USER FROM THE GROUP'S "members" ARRAY
+  // REMOVING THE GROUP FROM THE USER'S "groups" ARRAY
+
     Group.findOne({_id : req.params.group_id})
     .then(function(foundGroup){
       User.findOne({_id : req.params.member_id})

@@ -84,6 +84,12 @@ router.get('/:id/post', function(req, res){
 // LOGIC TO CREATE POST
 router.post('/:id/post', function(req, res){
 
+  // CREATE A newPost. It's type_of_post is 'casual' so that it doesn't display form to block.
+  // APPEND IMAGES INTO IT
+  // PUSHING createdPost INTO CURRENT USER'S posts ARRAY
+  // ASSIGNING show_access TO POST
+
+
   FILES = []
   MIME_TYPES = []
   upload(req,res,function(err) {
@@ -194,6 +200,7 @@ router.post('/:id/post', function(req, res){
 
 // DISPLAY AN IMAGE ON CLICK
 router.get('/:id/post/:post_id/image/:index', function(req, res){
+  // SINCE ONE POST HAS MULTIPLE IMAGES. SO WE RECEIVE INDEX IN THE ROUTE
   Post.findOne({_id : req.params.post_id})
   .then(function(foundPost){
 
@@ -215,7 +222,7 @@ router.get('/:id/post/:post_id/share', function(req, res){
   // POPULATING FRIENDS AND GROUPS OF CURRENT USER
   User.findOne({_id : req.user._id}).populate('friends').populate('groups').exec()
   .then(function(foundUser){
-    // FINDING THE INVENTORY TO SHARE
+    // FINDING THE POST TO SHARE
     Post.findOne({_id : req.params.post_id})
     .then(function(foundPost){
       res.render('post/share', {foundUser: foundUser, foundPost: foundPost})
@@ -237,6 +244,10 @@ router.get('/:id/post/:post_id/share', function(req, res){
 
 // LOGIC TO SHARE POST
 router.post('/:id/post/:post_id/share', function(req, res){
+
+  // FIND THE POST TO SHARE
+  // PUSHING foundPost TO SELECTED FRIENDS'S shared_inventories
+  // PUSHING foundPost TO SELECTED GROUPS'S posts
 
   Post.findOne({_id : req.params.post_id})
   .then(function(foundPost){
@@ -275,7 +286,7 @@ router.post('/:id/post/:post_id/share', function(req, res){
         }
       })
 
-      res.send("Inventory Successfully Shared")
+      res.send("Post Successfully Shared")
 
     })
     .catch(function(error){

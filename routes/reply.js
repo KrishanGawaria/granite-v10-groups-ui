@@ -22,6 +22,11 @@ router.get('/:id/post/:post_id/comment/:comment_id/reply', function(req, res){
 
 // LOGIC TO CREATE A REPLY AND APPEND TO COMMENT'S replies
 router.post('/:id/comment/:comment_id/reply', function(req, res){
+  // CREATING NEW REPLY (MESSAGE)
+  // ASSIGNING author TO CREATED REPLY
+  // ASSIGNING CREATED REPLY TO THE COMMENT
+
+
 
   // CREATING NEW REPLY (MESSAGE)
 
@@ -34,7 +39,7 @@ router.post('/:id/comment/:comment_id/reply', function(req, res){
     // ASSIGNING author TO CREATED REPLY
     createdReply.author = req.user
     createdReply.save()
-    
+
     Comment.findOne({_id : req.params.comment_id})
     .then(function(foundComment){
       // ASSIGNING CREATED REPLY TO THE COMMENT

@@ -56,7 +56,7 @@ function checkFileType(file, cb){
 // VIEW INVENTORY
 router.get('/:id/inventory', function(req, res){
 
-  // POPULATE INVENTORY OF CURRENT USER
+  // POPULATE INVENTORIES OF CURRENT USER
   User.findOne({_id : req.user._id}).populate('inventories').exec()
   .then(function(foundUser){
     res.render('inventory/inventories', {foundUser : foundUser})
@@ -77,6 +77,9 @@ router.get('/:id/inventory/new', function(req, res){
 
 // LOGIC TO CREATE INVENTORY
 router.post('/:id/inventory', function(req, res){
+  // CREATING NEW INVENTORY
+  //ASSIGNING AUTHOR TO INVENTORY
+  // PUSHING createdPost INTO CURRENT USER'S inventory ARRAY
 
 
   FILES = []
@@ -157,6 +160,8 @@ router.get('/:id/inventory/:inventory_id/image/:index', function(req, res){
 
 // DISPLAY SHARE INVENTORY PAGE
 router.get('/:id/inventory/:inventory_id/share', function(req, res){
+  // POPULATING FRIENDS AND GROUPS OF CURRENT USER
+  // FINDING THE INVENTORY TO SHARE
 
   // POPULATING FRIENDS AND GROUPS OF CURRENT USER
   User.findOne({_id : req.user._id}).populate('friends').populate('groups').exec()
@@ -180,6 +185,20 @@ router.get('/:id/inventory/:inventory_id/share', function(req, res){
 
 // LOGIC TO SHARE INVENTORY
 router.post('/:id/inventory/:inventory_id/share', function(req, res){
+  // ONLY THE OWNER OF INVENTORY CAN HIT THIS ROUTE TO SHARE HIS INVENTORY.
+  // OTHER USERS WILL SHARE THE SHARED_INVENTORIES AS A POST
+
+  // CREATING NEW POST WITH NEW PRICE AND NEW QUANTITY
+  // PUSHING newPost TO CURRENT USER'S shared_inventories_by_me ARRAY
+  // PUSHING newPost TO foundPost'S children_posts ARRAY
+  // PUSHING foundPost TO newPost'S parent_post
+  // PUSHING newPost TO SELECTED FRIENDS'S shared_inventories
+  // PUSHING newPost TO SELECTED GROUPS'S posts
+  // PUSHING newPost TO CURRENT USER'S posts ARRAY IF HE SELECTED TO SHARE AS A POST ALSO
+  // ASSIGNING show_access TO newPost IF CURRENT USER SELECTED TO SHARE AS A POST
+
+
+
 
   Post.findOne({_id : req.params.inventory_id})
   .then(function(foundInventory){
@@ -212,13 +231,17 @@ router.post('/:id/inventory/:inventory_id/share', function(req, res){
       // req.body will be in format:
       // {"Friend-5c90c2db3c463e7e7075953c" : "rishabh", "Group-5c90c2db3c463e7e7075953c" : "our-group" }
 
+      // PUSHING newPost TO SELECTED FRIENDS
+      // PUSHING newPost TO SELECTED GROUPS
+      // PUSHING newPost TO CURRENT USER'S posts ARRAY IF HE SELECTED TO SHARE AS A POST ALSO
+
       //Object.entries iterates through an Javascript Object
       Object.entries(req.body).forEach(function(array){
         // array will be in format : [ 'Friend-5c90c2db3c463e7e7075953c', 'rishabh' ]
         // or  [ 'Group-5c90c2db3c463e7e7075953c', 'our-group' ]
 
 
-        var category = array[0].split("-")[0]  // Friend/Group
+        var category = array[0].split("-")[0]  // Friend/Group/Post
         var id = array[0].split("-")[1]
 
         if(category == "Friend"){
